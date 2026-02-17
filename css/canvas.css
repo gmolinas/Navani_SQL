@@ -1,0 +1,397 @@
+/* SQL Diagram - Canvas, Table Cards, Relationship Lines */
+
+/* Diagram Panel */
+.diagram-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-primary);
+    min-width: 300px;
+}
+
+.diagram-toolbar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 20;
+    display: flex;
+    gap: 8px;
+}
+
+/* Canvas */
+.canvas-container,
+.canvas-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-primary);
+    background-image: radial-gradient(circle, var(--border-primary) 1px, transparent 1px);
+    background-size: 20px 20px;
+    cursor: grab;
+}
+
+.canvas-container:active,
+.canvas-area:active {
+    cursor: grabbing;
+}
+
+.canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8000px;
+    height: 8000px;
+}
+
+.relationships-svg,
+.lines-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+}
+
+/* Relationship Lines */
+.relationship-line,
+.rel-line {
+    stroke: var(--rel-line);
+    stroke-width: 1.5;
+    fill: none;
+}
+
+.relationship-line-highlighted,
+.rel-line-highlighted {
+    stroke: var(--rel-line-highlighted);
+    stroke-width: 2;
+    fill: none;
+}
+
+/* Animated flow on highlighted lines */
+@keyframes rel-flow-forward {
+    to { stroke-dashoffset: -20; }
+}
+
+@keyframes rel-glow-pulse {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.5; }
+}
+
+/* Base highlighted line */
+.rel-line-flow-base {
+    stroke: var(--rel-flow-base);
+    stroke-width: 2.5;
+    fill: none;
+}
+
+/* Animated dashes */
+.rel-line-flow-forward {
+    stroke: var(--rel-line-highlighted);
+    stroke-width: 2.5;
+    stroke-dasharray: 12 8;
+    stroke-linecap: round;
+    animation: rel-flow-forward 0.5s linear infinite;
+    filter: var(--rel-flow-filter);
+    fill: none;
+}
+
+/* Glow trail */
+.rel-line-glow {
+    stroke: var(--rel-glow);
+    stroke-width: 6;
+    stroke-linecap: round;
+    fill: none;
+    animation: rel-glow-pulse 2s ease-in-out infinite;
+    filter: blur(2px);
+}
+
+.relationship-label,
+.rel-label {
+    fill: var(--rel-label);
+    font-size: 9px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+}
+
+.relationship-label-highlighted,
+.rel-label-highlighted {
+    fill: var(--rel-line-highlighted);
+    font-size: 9px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.cardinality-label {
+    fill: var(--rel-cardinality);
+    font-size: 8px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.cardinality-highlighted {
+    fill: var(--rel-line-highlighted);
+    font-size: 8px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+/* Selection Marquee */
+.selection-marquee {
+    position: absolute;
+    border: 1.5px dashed var(--accent);
+    background: var(--accent-soft);
+    pointer-events: none;
+    z-index: 40;
+}
+
+/* Drop Zone */
+.drop-zone {
+    position: absolute;
+    inset: 0;
+    border: 2px dashed var(--text-secondary);
+    background: rgba(0, 0, 0, 0.02);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.drop-zone.active {
+    display: flex;
+}
+
+.drop-zone-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Empty State */
+.empty-state {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.empty-state.hidden {
+    display: none;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+}
+
+.empty-title {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.empty-text {
+    font-size: 12px;
+    max-width: 280px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* Table Card */
+.table-card {
+    position: absolute;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    min-width: 220px;
+    box-shadow: var(--card-shadow);
+    cursor: move;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+}
+
+.table-card:hover {
+    border-color: var(--border-secondary);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.table-card.has-relationships .table-icon::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    margin-left: 4px;
+}
+
+.table-card.is-hovered {
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 1px var(--text-primary), var(--card-shadow-hover);
+    background: var(--bg-secondary);
+}
+
+.table-card.connected-to-hovered {
+    border-color: var(--text-secondary);
+    box-shadow: 0 0 0 1px var(--text-secondary), var(--card-shadow-hover);
+    background: var(--bg-secondary);
+}
+
+.table-card.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-soft), var(--card-shadow-hover);
+}
+
+.table-card.dragging {
+    opacity: 0.9;
+    box-shadow: var(--card-shadow-drag);
+    z-index: 50;
+}
+
+.table-header {
+    background: var(--bg-secondary);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-primary);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.table-drag-handle {
+    color: var(--text-muted);
+    cursor: grab;
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+.table-drag-handle:hover {
+    opacity: 1;
+}
+
+.table-icon {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.table-name {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    outline: none;
+}
+
+.table-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.table-card:hover .table-actions {
+    opacity: 1;
+}
+
+.table-action-btn {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    transition: all 0.15s ease;
+}
+
+.table-action-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.table-action-btn.delete:hover {
+    color: var(--error);
+}
+
+.table-action-btn.connect:hover {
+    color: var(--card-connect-hover);
+}
+
+/* Table Body */
+.table-body {
+    padding: 4px 0;
+}
+
+.column-row {
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.1s ease;
+}
+
+.column-row:hover {
+    background: var(--bg-hover);
+}
+
+.column-row:nth-child(even) {
+    background: var(--bg-secondary);
+}
+
+.column-row:nth-child(even):hover {
+    background: var(--bg-hover);
+}
+
+.column-icon {
+    width: 14px;
+    font-size: 9px;
+    text-align: center;
+}
+
+.column-icon.pk {
+    color: var(--card-pk-color);
+}
+
+.column-icon.fk {
+    color: var(--text-secondary);
+}
+
+.column-name {
+    flex: 1;
+    font-size: 11px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+}
+
+.column-type {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-family: var(--font-mono);
+}
+
+.column-ref {
+    font-size: 9px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 70px;
+}

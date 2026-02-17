@@ -1,0 +1,178 @@
+/* SQL Diagram - Editor Panel Styles */
+
+/* Editor Panel */
+.editor-panel {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border-primary);
+    flex-shrink: 0;
+    width: 420px;
+    min-width: 250px;
+    max-width: 70%;
+}
+
+.panel-header {
+    height: 36px;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 11px;
+    color: var(--text-muted);
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+.panel-header-spacer {
+    flex: 1;
+}
+
+.style-toggle-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s ease;
+    text-transform: none;
+}
+
+.style-toggle-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-secondary);
+}
+
+.style-toggle-btn.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.panel-icon {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.editor-container,
+.editor-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.line-numbers {
+    width: 44px;
+    flex-shrink: 0;
+    background: var(--bg-secondary);
+    padding: 12px 8px;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    user-select: none;
+    border-right: 1px solid var(--border-primary);
+    white-space: pre;
+    font-variant-numeric: tabular-nums;
+}
+
+.line-numbers::-webkit-scrollbar {
+    display: none;
+}
+
+/* Editor input wrapper */
+.editor-input-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.sql-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: transparent;
+    caret-color: var(--caret-color);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 12px;
+    resize: none;
+    outline: none;
+    overflow: auto;
+    z-index: 2;
+    white-space: pre;
+    word-wrap: normal;
+}
+
+.sql-input::placeholder {
+    color: var(--text-muted);
+}
+
+.sql-input::selection {
+    background: var(--selection-bg);
+}
+
+.syntax-highlight {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+    white-space: pre;
+    word-wrap: normal;
+    border: none;
+}
+
+/* Syntax colors */
+.syn-keyword  { color: var(--syn-keyword); }
+.syn-name     { color: var(--syn-name); }
+.syn-type     { color: var(--syn-type); }
+.syn-constraint { color: var(--syn-constraint); }
+.syn-bracket  { color: var(--syn-bracket); }
+.syn-brace    { color: var(--syn-brace); }
+.syn-comment  { color: var(--syn-comment); font-style: italic; }
+.syn-ref      { color: var(--syn-ref); }
+.syn-string   { color: var(--syn-string); }
+.syn-number   { color: var(--syn-number); }
+.syn-attr     { color: var(--syn-attr); }
+
+/* Editor line highlight */
+.editor-line-highlight {
+    background: var(--accent-soft);
+    border-left: 2px solid var(--accent);
+    margin-left: -12px;
+    padding-left: 10px;
+    padding-right: 9999px;
+    animation: editor-highlight-fade 2.5s ease forwards;
+}
+
+@keyframes editor-highlight-fade {
+    0%   { background: var(--accent-soft); }
+    70%  { background: var(--accent-soft); }
+    100% { background: transparent; border-left-color: transparent; }
+}

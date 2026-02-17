@@ -1,0 +1,41 @@
+/* SQL Diagram - Responsive & Scrollbar */
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-primary);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-secondary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .panel-resizer,
+    .resizer {
+        display: none;
+    }
+
+    .editor-panel {
+        width: 100% !important;
+        height: 40%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid var(--border-primary);
+    }
+
+    .palette-sidebar,
+    .palette {
+        display: none;
+    }
+}

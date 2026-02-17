@@ -1,0 +1,224 @@
+/* SQL Diagram - CSS Variables (Light + Dark Theme) */
+
+:root {
+    /* ── Surface ── */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f7f8;
+    --bg-tertiary: #eeeef0;
+    --bg-elevated: #e5e5e8;
+    --bg-hover: #dddde0;
+
+    /* ── Text ── */
+    --text-primary: #1a1a1a;
+    --text-secondary: #5a5a5a;
+    --text-muted: #8a8a8e;
+
+    /* ── Borders ── */
+    --border-primary: #d4d4d8;
+    --border-secondary: #b0b0b6;
+    --border-focus: #1a1a1a;
+
+    /* ── Brand ── */
+    --primary: #1a1a1a;
+    --primary-bg: #1a1a1a;
+    --primary-text: #ffffff;
+
+    /* ── Status ── */
+    --success: #06a156;
+    --error: #e53529;
+    --warning: #d9a200;
+
+    /* ── Accent ── */
+    --accent: #3b82f6;
+    --accent-soft: rgba(59, 130, 246, 0.15);
+
+    /* ── Syntax ── */
+    --syn-keyword: #af00db;
+    --syn-name: #267f99;
+    --syn-type: #0070c1;
+    --syn-constraint: #a31515;
+    --syn-bracket: #d4a600;
+    --syn-brace: #333333;
+    --syn-comment: #008000;
+    --syn-ref: #1a6baa;
+    --syn-string: #a31515;
+    --syn-number: #098658;
+    --syn-attr: #1a6baa;
+
+    /* ── Caret ── */
+    --caret-color: #1a1a1a;
+
+    /* ── Relationship lines ── */
+    --rel-line: #a0a0a0;
+    --rel-line-highlighted: #1a1a1a;
+    --rel-bar: #888888;
+    --rel-bar-highlighted: #1a1a1a;
+    --rel-label: #8a8a8e;
+    --rel-cardinality: #a0a0a0;
+    --rel-preview: #999999;
+    --rel-preview-active: #1a1a1a;
+    --rel-glow: rgba(59, 130, 246, 0.25);
+    --rel-flow-base: rgba(26, 26, 26, 0.2);
+    --rel-flow-filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.4));
+
+    /* ── Canvas export (PNG) ── */
+    --export-bg: #ffffff;
+    --export-title-bg: #f7f7f8;
+    --export-title-border: #d4d4d8;
+    --export-title-text: #1a1a1a;
+    --export-title-meta: #8a8a8e;
+    --export-table-bg: #ffffff;
+    --export-table-header: #f7f7f8;
+    --export-table-border: #d4d4d8;
+    --export-table-icon: #5a5a5a;
+    --export-table-name: #1a1a1a;
+    --export-col-text: #1a1a1a;
+    --export-col-type: #8a8a8e;
+    --export-pk: #d97706;
+    --export-fk: #2563eb;
+    --export-rel-line: #a0a0a0;
+    --export-rel-label: #8a8a8e;
+    --export-rel-card: #a0a0a0;
+    --export-rel-bar: #666666;
+
+    /* ── Table card ── */
+    --card-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.06);
+    --card-shadow-hover: 0 4px 16px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.06);
+    --card-shadow-drag: 0 12px 32px rgba(0,0,0,0.15);
+    --card-pk-color: #d97706;
+    --card-connect-hover: #2563eb;
+
+    /* ── Selection ── */
+    --selection-bg: rgba(59, 130, 246, 0.25);
+
+    /* ── Modal overlay ── */
+    --modal-overlay: rgba(0, 0, 0, 0.3);
+    --modal-shadow: 0 16px 48px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+
+    /* ── Icon picker selected ── */
+    --icon-selected-bg: #dbeafe;
+    --icon-selected-border: #3b82f6;
+    --icon-selected-color: #1d4ed8;
+
+    /* ── Scrollbar ── */
+    --scrollbar-thumb: #c0c0c0;
+
+    /* ── Toast ── */
+    --toast-shadow: 0 4px 16px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.06);
+
+    /* ── Fonts ── */
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    /* ── Radii ── */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+/* ─────────────── Dark Theme ─────────────── */
+[data-theme="dark"] {
+    --bg-primary: #000000;
+    --bg-secondary: #111111;
+    --bg-tertiary: #1a1a1a;
+    --bg-elevated: #222222;
+    --bg-hover: #2a2a2a;
+
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --text-muted: #666666;
+
+    --border-primary: #333333;
+    --border-secondary: #444444;
+    --border-focus: #ffffff;
+
+    --primary: #ffffff;
+    --primary-bg: #ffffff;
+    --primary-text: #000000;
+
+    --success: #06c167;
+    --error: #ff3b30;
+    --warning: #ffcc00;
+
+    --accent: #6ba7ff;
+    --accent-soft: rgba(107, 167, 255, 0.18);
+
+    --syn-keyword: #c586c0;
+    --syn-name: #4ec9b0;
+    --syn-type: #569cd6;
+    --syn-constraint: #ce9178;
+    --syn-bracket: #ffd700;
+    --syn-brace: #d4d4d4;
+    --syn-comment: #6a9955;
+    --syn-ref: #9cdcfe;
+    --syn-string: #ce9178;
+    --syn-number: #b5cea8;
+    --syn-attr: #9cdcfe;
+
+    --caret-color: #ffffff;
+
+    --rel-line: #555555;
+    --rel-line-highlighted: #ffffff;
+    --rel-bar: #aaaaaa;
+    --rel-bar-highlighted: #ffffff;
+    --rel-label: #555555;
+    --rel-cardinality: #444444;
+    --rel-preview: #777777;
+    --rel-preview-active: #ffffff;
+    --rel-glow: rgba(88, 166, 255, 0.35);
+    --rel-flow-base: rgba(255, 255, 255, 0.25);
+    --rel-flow-filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+
+    --export-bg: #000000;
+    --export-title-bg: #0d0d0d;
+    --export-title-border: #222222;
+    --export-title-text: #ffffff;
+    --export-title-meta: #555555;
+    --export-table-bg: #111111;
+    --export-table-header: #1a1a1a;
+    --export-table-border: #333333;
+    --export-table-icon: #888888;
+    --export-table-name: #ffffff;
+    --export-col-text: #ffffff;
+    --export-col-type: #666666;
+    --export-pk: #ffd700;
+    --export-fk: #6ba7ff;
+    --export-rel-line: #555555;
+    --export-rel-label: #888888;
+    --export-rel-card: #777777;
+    --export-rel-bar: #aaaaaa;
+
+    --card-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    --card-shadow-hover: 0 8px 24px rgba(0,0,0,0.5);
+    --card-shadow-drag: 0 12px 32px rgba(0,0,0,0.6);
+    --card-pk-color: var(--warning);
+    --card-connect-hover: #7fd0ff;
+
+    --selection-bg: rgba(107, 167, 255, 0.3);
+
+    --modal-overlay: rgba(0, 0, 0, 0.8);
+    --modal-shadow: 0 8px 24px rgba(0,0,0,0.5);
+
+    --icon-selected-bg: #1d3f73;
+    --icon-selected-border: #6ba7ff;
+    --icon-selected-color: #ffffff;
+
+    --scrollbar-thumb: #333;
+
+    --toast-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-mono);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 1.5;
+}

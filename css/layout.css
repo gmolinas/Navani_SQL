@@ -1,0 +1,243 @@
+/* SQL Diagram - Layout (App Container, Header, Toolbar, Main Panels) */
+
+/* App Container */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header */
+.app-header,
+.header {
+    height: 48px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    flex-shrink: 0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-text);
+    font-size: 14px;
+    overflow: hidden;
+}
+
+.logo-icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.logo-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-left: 8px;
+}
+
+.header-separator {
+    width: 1px;
+    height: 20px;
+    background: var(--border-primary);
+    margin: 0 12px;
+    flex-shrink: 0;
+}
+
+.schema-name-input {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 4px 8px;
+    outline: none;
+    min-width: 120px;
+    max-width: 300px;
+    transition: all 0.15s ease;
+}
+
+.schema-name-input:hover {
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+.schema-name-input:focus {
+    border-color: var(--border-secondary);
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+}
+
+.logo-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: 4px;
+}
+
+/* Toolbar */
+.toolbar {
+    height: 44px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border-primary);
+    margin: 0 4px;
+}
+
+.toolbar-spacer,
+.spacer {
+    flex: 1;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--primary-bg);
+    color: var(--primary-text);
+    border-color: var(--primary-bg);
+}
+
+.btn-primary:hover {
+    background: var(--text-secondary);
+    border-color: var(--text-secondary);
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-color: var(--border-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-secondary);
+}
+
+@keyframes btn-click-pulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(0.92); }
+    70% { transform: scale(1.05); box-shadow: 0 0 12px rgba(107, 167, 255, 0.4); }
+    100% { transform: scale(1); box-shadow: none; }
+}
+
+.btn.clicked {
+    animation: btn-click-pulse 0.35s ease;
+    border-color: #6ba7ff;
+}
+
+.btn-icon {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border-color: var(--border-primary);
+}
+
+.btn-icon:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+/* Zoom Controls */
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.zoom-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.zoom-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.zoom-display,
+#zoomDisplay {
+    font-size: 11px;
+    color: var(--text-muted);
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Main Content */
+.main-content,
+.main {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Panel Resizer */
+.panel-resizer,
+.resizer {
+    width: 4px;
+    background: var(--border-primary);
+    cursor: col-resize;
+    transition: background 0.15s ease;
+    flex-shrink: 0;
+}
+
+.panel-resizer:hover,
+.resizer:hover {
+    background: var(--text-secondary);
+}
