@@ -185,8 +185,10 @@
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-lg);
     padding: 20px;
-    min-width: 380px;
+    min-width: min(380px, 95vw);
     max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: var(--modal-shadow);
 }
 

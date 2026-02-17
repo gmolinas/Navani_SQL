@@ -95,8 +95,8 @@ function initPanZoom() {
 
         if (!insideCanvasContainer) return;
 
-        const isTableInteraction = !!e.target.closest('.table-card');
-        const isLeftOnEmpty = e.button === 0 && !isTableInteraction;
+        const isInteractive = !!e.target.closest('.table-card, button, a, input, select, textarea, .mobile-fab, .diagram-toolbar, .schemas-panel');
+        const isLeftOnEmpty = e.button === 0 && !isInteractive;
 
         if (isMiddleButton) {
             // Middle button always pans
@@ -228,6 +228,106 @@ function initPanZoom() {
     container.addEventListener('contextmenu', (e) => {
         if (e.button === 1) {
             e.preventDefault();
+        }
+    });
+
+    // === Touch support: pan (1 finger) and pinch-to-zoom (2 fingers) ===
+    let touchState = {
+        active: false,
+        isPinch: false,
+        lastTouch: null,
+        initialPinchDist: 0,
+        initialZoom: 1,
+        pinchMid: null
+    };
+
+    function getTouchDistance(t1, t2) {
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function getTouchMidpoint(t1, t2) {
+        return {
+            x: (t1.clientX + t2.clientX) / 2,
+            y: (t1.clientY + t2.clientY) / 2
+        };
+    }
+
+    container.addEventListener('touchstart', (e) => {
+        if (state.isDraggingTable || state.connectionDraft) return;
+
+        const touches = e.touches;
+
+        if (touches.length === 2) {
+            // Pinch-to-zoom
+            e.preventDefault();
+            touchState.isPinch = true;
+            touchState.active = true;
+            touchState.initialPinchDist = getTouchDistance(touches[0], touches[1]);
+            touchState.initialZoom = state.zoom;
+            touchState.pinchMid = getTouchMidpoint(touches[0], touches[1]);
+            return;
+        }
+
+        if (touches.length === 1) {
+            // Single finger: pan if on empty canvas (not on a table or interactive element)
+            const target = document.elementFromPoint(touches[0].clientX, touches[0].clientY);
+            if (!target || !container.contains(target)) return;
+            // Let interactive elements handle their own touch events
+            if (target.closest('.table-card, button, a, input, select, textarea, .mobile-fab, .diagram-toolbar, .schemas-panel')) return;
+
+            e.preventDefault();
+            touchState.active = true;
+            touchState.isPinch = false;
+            touchState.lastTouch = { x: touches[0].clientX, y: touches[0].clientY };
+        }
+    }, { passive: false });
+
+    container.addEventListener('touchmove', (e) => {
+        if (!touchState.active) return;
+        e.preventDefault();
+
+        const touches = e.touches;
+
+        if (touchState.isPinch && touches.length >= 2) {
+            // Pinch zoom
+            const dist = getTouchDistance(touches[0], touches[1]);
+            const scale = dist / touchState.initialPinchDist;
+            const newZoom = touchState.initialZoom * scale;
+            const mid = getTouchMidpoint(touches[0], touches[1]);
+
+            // Pan to follow midpoint movement
+            const dmx = mid.x - touchState.pinchMid.x;
+            const dmy = mid.y - touchState.pinchMid.y;
+            touchState.pinchMid = mid;
+            state.panX += dmx;
+            state.panY += dmy;
+
+            setZoom(newZoom, mid);
+            return;
+        }
+
+        if (touches.length === 1 && touchState.lastTouch) {
+            // Single finger pan
+            const dx = touches[0].clientX - touchState.lastTouch.x;
+            const dy = touches[0].clientY - touchState.lastTouch.y;
+            state.panX += dx;
+            state.panY += dy;
+            touchState.lastTouch = { x: touches[0].clientX, y: touches[0].clientY };
+            applyViewportTransform();
+        }
+    }, { passive: false });
+
+    container.addEventListener('touchend', (e) => {
+        if (e.touches.length === 0) {
+            touchState.active = false;
+            touchState.isPinch = false;
+            touchState.lastTouch = null;
+        } else if (e.touches.length === 1 && touchState.isPinch) {
+            // Went from 2 fingers to 1: switch to pan mode
+            touchState.isPinch = false;
+            touchState.lastTouch = { x: e.touches[0].clientX, y: e.touches[0].clientY };
         }
     });
 }

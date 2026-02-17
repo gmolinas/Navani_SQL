@@ -27,21 +27,39 @@
         </header>
 
         <div class="toolbar">
-            <button class="btn btn-primary" id="runBtn"><i class="fas fa-play"></i> Run</button>
-            <button class="btn btn-secondary" id="clearBtn"><i class="fas fa-trash"></i> Clear</button>
-            <div style="width:1px;height:20px;background:var(--border-primary);margin:0 8px"></div>
-            <button class="btn btn-secondary" id="exportPngBtn"><i class="fas fa-image"></i> PNG</button>
-            <button class="btn btn-secondary" id="exportJsonBtn"><i class="fas fa-download"></i> Download</button>
-            <button class="btn btn-secondary" id="copySqlBtn"><i class="fas fa-copy"></i> Copy</button>
-            <div style="width:1px;height:20px;background:var(--border-primary);margin:0 8px"></div>
-            <button class="btn btn-secondary" id="shareBtn"><i class="fas fa-share-alt"></i> Share</button>
+            <div class="toolbar-editor-group">
+                <button class="btn btn-primary" id="runBtn"><i class="fas fa-play"></i><span class="btn-label"> Run</span></button>
+                <button class="btn btn-secondary" id="clearBtn"><i class="fas fa-trash"></i><span class="btn-label"> Clear</span></button>
+            </div>
+            <div class="toolbar-export-group">
+                <div style="width:1px;height:20px;background:var(--border-primary);margin:0 8px"></div>
+                <button class="btn btn-secondary" id="exportPngBtn"><i class="fas fa-image"></i><span class="btn-label"> PNG</span></button>
+                <button class="btn btn-secondary" id="exportJsonBtn"><i class="fas fa-download"></i><span class="btn-label"> Download</span></button>
+                <button class="btn btn-secondary" id="copySqlBtn"><i class="fas fa-copy"></i><span class="btn-label"> Copy</span></button>
+                <div style="width:1px;height:20px;background:var(--border-primary);margin:0 8px"></div>
+                <button class="btn btn-secondary" id="shareBtn"><i class="fas fa-share-alt"></i><span class="btn-label"> Share</span></button>
+            </div>
+            <button class="toolbar-overflow-btn" id="overflowBtn" title="More actions">&middot;&middot;&middot;</button>
+            <div class="toolbar-overflow-menu" id="overflowMenu">
+                <button class="btn btn-secondary" id="overflowPngBtn"><i class="fas fa-image"></i><span class="btn-label">PNG</span></button>
+                <button class="btn btn-secondary" id="overflowJsonBtn"><i class="fas fa-download"></i><span class="btn-label">Download</span></button>
+                <button class="btn btn-secondary" id="overflowCopyBtn"><i class="fas fa-copy"></i><span class="btn-label">Copy</span></button>
+                <button class="btn btn-secondary" id="overflowShareBtn"><i class="fas fa-share-alt"></i><span class="btn-label">Share</span></button>
+            </div>
             <div class="spacer"></div>
-            <button class="zoom-btn" id="zoomOutBtn">-</button>
-            <span class="zoom-display" id="zoomDisplay">100%</span>
-            <button class="zoom-btn" id="zoomInBtn">+</button>
-            <button class="zoom-btn" id="fitBtn"><i class="fas fa-expand"></i></button>
+            <div class="toolbar-zoom-group">
+                <button class="zoom-btn" id="zoomOutBtn">-</button>
+                <span class="zoom-display" id="zoomDisplay">100%</span>
+                <button class="zoom-btn" id="zoomInBtn">+</button>
+                <button class="zoom-btn" id="fitBtn"><i class="fas fa-expand"></i></button>
+            </div>
             <div style="width:1px;height:20px;background:var(--border-primary);margin:0 8px"></div>
             <button class="zoom-btn theme-toggle" id="themeToggleBtn" title="Toggle theme"><i class="fas fa-moon"></i></button>
+        </div>
+
+        <div class="mobile-tabs" id="mobileTabs">
+            <button class="mobile-tab" data-panel="editor" id="tabEditor"><i class="fas fa-code"></i> Editor</button>
+            <button class="mobile-tab active" data-panel="canvas" id="tabCanvas"><i class="fas fa-project-diagram"></i> Canvas <span class="tab-badge" id="tabBadge"></span></button>
         </div>
 
         <main class="main">
@@ -97,8 +115,9 @@ Table posts {
                     <div class="empty-state" id="emptyState">
                         <div class="empty-icon"><i class="fas fa-database"></i></div>
                         <div class="empty-title">No tables yet</div>
-                        <div class="empty-text">Write dbdiagram DSL or drag a template</div>
+                        <div class="empty-text">Write dbdiagram DSL or tap <strong>+</strong> to add a table</div>
                     </div>
+                    <button class="mobile-fab" id="mobileFab" title="Add Table"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
         </main>

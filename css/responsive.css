@@ -19,7 +19,40 @@
     background: var(--border-secondary);
 }
 
-/* Responsive */
+/* ========================================
+   Desktop defaults: hide mobile-only elements
+   ======================================== */
+.mobile-fab {
+    display: none;
+}
+
+.toolbar-editor-group {
+    display: contents;
+}
+
+.toolbar-export-group {
+    display: contents;
+}
+
+.toolbar-zoom-group {
+    display: contents;
+}
+
+/* ========================================
+   Touch devices: always show action buttons
+   ======================================== */
+@media (hover: none) {
+    .table-actions {
+        opacity: 1;
+    }
+    .schema-item-delete {
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   Tablet breakpoint (<= 1024px)
+   ======================================== */
 @media (max-width: 1024px) {
     .panel-resizer,
     .resizer {
@@ -38,4 +71,379 @@
     .palette {
         display: none;
     }
+}
+
+/* ========================================
+   Mobile breakpoint (<= 768px)
+   ======================================== */
+@media (max-width: 768px) {
+    /* Tab-based view: show one panel at a time */
+    .main {
+        flex-direction: column;
+        position: relative;
+    }
+
+    .editor-panel {
+        width: 100% !important;
+        height: 100% !important;
+        min-width: unset;
+        max-width: none;
+        border-right: none;
+        border-bottom: none;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Prevent iOS auto-zoom on textarea focus (needs >= 16px) */
+    .sql-input {
+        font-size: 16px;
+    }
+    .syntax-highlight {
+        font-size: 16px;
+    }
+    .line-numbers {
+        font-size: 14px;
+    }
+
+    .diagram-panel {
+        width: 100% !important;
+        height: 100% !important;
+        min-width: 0;
+        flex: 1;
+    }
+
+    /* Hide inactive panel */
+    .editor-panel.mobile-hidden {
+        display: none !important;
+    }
+    .diagram-panel.mobile-hidden {
+        display: none !important;
+    }
+
+    /* Mobile tab buttons (shown) */
+    .mobile-tabs {
+        display: flex;
+    }
+
+    /* Toolbar: icon-only buttons */
+    .toolbar {
+        gap: 4px;
+        padding: 0 8px;
+    }
+
+    .toolbar .btn .btn-label {
+        display: none;
+    }
+
+    .toolbar .btn {
+        padding: 6px 8px;
+        gap: 0;
+    }
+
+    /* Context-aware toolbar groups */
+    .toolbar-editor-group,
+    .toolbar-zoom-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* When canvas is active: hide editor buttons, show zoom */
+    body.mobile-panel-canvas .toolbar-editor-group {
+        display: none;
+    }
+
+    /* When editor is active: hide zoom, show editor buttons */
+    body.mobile-panel-editor .toolbar-zoom-group {
+        display: none;
+    }
+
+    /* Hide export buttons on mobile (they're in overflow menu) */
+    .toolbar .toolbar-export-group {
+        display: none;
+    }
+
+    /* Show overflow menu button */
+    .toolbar-overflow-btn {
+        display: flex;
+    }
+
+    /* Schemas panel: hidden by default on mobile */
+    .schemas-panel {
+        display: none;
+    }
+    .schemas-panel.mobile-visible {
+        display: flex;
+    }
+
+    /* Touch targets */
+    .table-action-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .zoom-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .icon-picker-item {
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+    }
+
+    .color-picker-item {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Modal responsive */
+    .modal {
+        min-width: min(380px, 95vw);
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: 8px;
+    }
+
+    .columns-container {
+        max-height: 140px;
+    }
+
+    /* Relation popover - centered bottom on mobile */
+    .relation-popover {
+        position: fixed;
+        left: 4px !important;
+        right: 4px !important;
+        bottom: 12px !important;
+        top: auto !important;
+        min-width: unset;
+        max-width: none;
+        width: auto;
+    }
+
+    /* Toast centered at bottom */
+    .toast-container {
+        bottom: 80px;
+        right: 50%;
+        transform: translateX(50%);
+        width: max-content;
+        max-width: 90vw;
+    }
+
+    @keyframes slide-in {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Floating Action Button for Add Table */
+    .mobile-fab {
+        display: flex;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--primary-bg);
+        color: var(--primary-text);
+        border: none;
+        font-size: 20px;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        z-index: 30;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .mobile-fab:active {
+        transform: scale(0.92);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Hide desktop Add Table button on mobile */
+    .diagram-toolbar {
+        display: none;
+    }
+}
+
+/* ========================================
+   Compact breakpoint (<= 480px)
+   ======================================== */
+@media (max-width: 480px) {
+    /* Header compact */
+    .logo-text {
+        display: none;
+    }
+    .header-separator {
+        display: none;
+    }
+    .header {
+        padding: 0 8px;
+    }
+    .schema-name-input {
+        min-width: 80px;
+        font-size: 12px;
+    }
+
+    /* Toolbar even more compact */
+    .toolbar {
+        gap: 2px;
+        padding: 0 4px;
+        height: 40px;
+    }
+    .toolbar .btn {
+        padding: 4px 6px;
+        font-size: 11px;
+    }
+    .zoom-display {
+        min-width: 32px;
+        font-size: 10px;
+    }
+
+    /* Mobile tabs compact */
+    .mobile-tabs .mobile-tab {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    /* Smaller FAB on tiny screens */
+    .mobile-fab {
+        width: 46px;
+        height: 46px;
+        font-size: 18px;
+        bottom: 16px;
+        right: 16px;
+    }
+}
+
+/* ========================================
+   Toolbar overflow menu
+   ======================================== */
+.toolbar-overflow-btn {
+    display: none;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    position: relative;
+}
+
+.toolbar-overflow-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.toolbar-overflow-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--card-shadow-hover);
+    padding: 4px;
+    z-index: 50;
+    min-width: 140px;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toolbar-overflow-menu.open {
+    display: flex;
+}
+
+.toolbar-overflow-menu .btn {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+}
+
+.toolbar-overflow-menu .btn .btn-label {
+    display: inline !important;
+}
+
+/* ========================================
+   Mobile tab navigation
+   ======================================== */
+.mobile-tabs {
+    display: none;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    flex-shrink: 0;
+}
+
+.mobile-tab {
+    flex: 1;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+
+.mobile-tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.mobile-tab.active {
+    color: var(--text-primary);
+    border-bottom-color: var(--primary-bg);
+}
+
+/* Tab badge (table count) */
+.tab-badge {
+    display: none;
+}
+
+.tab-badge.has-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-bg);
+    color: var(--primary-text);
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    line-height: 1;
+}
+
+/* Canvas touch-action for touch devices */
+.canvas-area {
+    touch-action: none;
 }

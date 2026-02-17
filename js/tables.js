@@ -40,6 +40,9 @@ function renderTables() {
         card.remove();
     }
 
+    // Update mobile tab badge
+    if (typeof updateTabBadge === 'function') updateTabBadge();
+
     if (state.tables.length === 0) {
         setEmptyStateVisible(true);
         elements.relationshipsSvg.innerHTML = '';

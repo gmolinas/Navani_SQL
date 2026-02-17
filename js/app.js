@@ -30,6 +30,8 @@ function init() {
     initDragAndDrop();
     initPanZoom();
     initResizer();
+    initMobileTabs();
+    initOverflowMenu();
     updateLineNumbers();
     applyViewportTransform();
 
@@ -164,6 +166,104 @@ function initEventListeners() {
     });
 }
 
+// Mobile panel switching
+function isMobileView() {
+    return window.innerWidth <= 768;
+}
+
+function switchMobilePanel(panel) {
+    const editorPanel = elements.editorPanel;
+    const diagramPanel = document.querySelector('.diagram-panel');
+    const tabEditor = $('#tabEditor');
+    const tabCanvas = $('#tabCanvas');
+
+    if (!editorPanel || !diagramPanel) return;
+
+    // Update body class for context-aware toolbar
+    document.body.classList.remove('mobile-panel-editor', 'mobile-panel-canvas');
+    document.body.classList.add(`mobile-panel-${panel}`);
+
+    if (panel === 'editor') {
+        editorPanel.classList.remove('mobile-hidden');
+        diagramPanel.classList.add('mobile-hidden');
+        tabEditor?.classList.add('active');
+        tabCanvas?.classList.remove('active');
+    } else {
+        editorPanel.classList.add('mobile-hidden');
+        diagramPanel.classList.remove('mobile-hidden');
+        tabEditor?.classList.remove('active');
+        tabCanvas?.classList.add('active');
+        // Fit tables into view when switching to canvas
+        setTimeout(() => {
+            if (state.tables.length > 0) fitToScreen();
+        }, 50);
+    }
+
+    state._mobilePanel = panel;
+}
+
+function updateTabBadge() {
+    const badge = $('#tabBadge');
+    if (!badge) return;
+    const count = state.tables.length;
+    if (count > 0) {
+        badge.textContent = count;
+        badge.classList.add('has-count');
+    } else {
+        badge.textContent = '';
+        badge.classList.remove('has-count');
+    }
+}
+
+function initMobileTabs() {
+    const tabEditor = $('#tabEditor');
+    const tabCanvas = $('#tabCanvas');
+
+    if (tabEditor) {
+        tabEditor.addEventListener('click', () => switchMobilePanel('editor'));
+    }
+    if (tabCanvas) {
+        tabCanvas.addEventListener('click', () => switchMobilePanel('canvas'));
+    }
+
+    // Canvas-first on mobile
+    if (isMobileView()) {
+        switchMobilePanel('canvas');
+    }
+
+    // FAB wiring
+    const fab = $('#mobileFab');
+    if (fab) {
+        fab.addEventListener('click', openAddTableModal);
+    }
+}
+
+// Toolbar overflow menu
+function initOverflowMenu() {
+    const overflowBtn = $('#overflowBtn');
+    const overflowMenu = $('#overflowMenu');
+
+    if (!overflowBtn || !overflowMenu) return;
+
+    overflowBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        overflowMenu.classList.toggle('open');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!overflowMenu.contains(e.target) && e.target !== overflowBtn) {
+            overflowMenu.classList.remove('open');
+        }
+    });
+
+    // Wire overflow menu buttons to same actions as toolbar buttons
+    $('#overflowPngBtn')?.addEventListener('click', () => { overflowMenu.classList.remove('open'); exportPNG(); });
+    $('#overflowJsonBtn')?.addEventListener('click', () => { overflowMenu.classList.remove('open'); exportJSON(); });
+    $('#overflowCopyBtn')?.addEventListener('click', () => { overflowMenu.classList.remove('open'); copySQL(); });
+    $('#overflowShareBtn')?.addEventListener('click', () => { overflowMenu.classList.remove('open'); shareDiagram(); });
+}
+
 // Resizer for editor panel
 function initResizer() {
     const resizer = elements.resizer;
@@ -174,6 +274,7 @@ function initResizer() {
     let isResizing = false;
     let startX, startWidth;
 
+    // Mouse events
     resizer.addEventListener('mousedown', (e) => {
         isResizing = true;
         startX = e.clientX;
@@ -194,6 +295,30 @@ function initResizer() {
         if (isResizing) {
             isResizing = false;
             document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+        }
+    });
+
+    // Touch events for resizer (tablets)
+    resizer.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        isResizing = true;
+        startX = e.touches[0].clientX;
+        startWidth = editorPanel.offsetWidth;
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!isResizing) return;
+        const diff = e.touches[0].clientX - startX;
+        const newWidth = Math.max(250, Math.min(startWidth + diff, window.innerWidth - 300));
+        editorPanel.style.width = newWidth + 'px';
+    });
+
+    document.addEventListener('touchend', () => {
+        if (isResizing) {
+            isResizing = false;
             document.body.style.userSelect = '';
         }
     });
@@ -239,6 +364,11 @@ function runParser() {
     closeRelationEditor();
     renderTables();
     showToast(`Loaded ${tables.length} table(s)`, 'success');
+
+    // On mobile, auto-switch to canvas after running parser
+    if (isMobileView()) {
+        switchMobilePanel('canvas');
+    }
 }
 
 // Update SQL from state
