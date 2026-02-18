@@ -6,6 +6,10 @@ A browser-based database schema designer and ER diagram visualizer. Write schema
 
 ## Features
 
+
+https://github.com/user-attachments/assets/ae7f1037-2637-435c-ba03-441a09cebc1b
+
+
 ### DSL Editor
 - dbdiagram-compatible syntax with syntax highlighting and line numbers
 - Supports tables, columns, types (`int`, `varchar(n)`, `text`, `bool`, `datetime`, `decimal(p,s)`, ...), constraints (`pk`, `not null`, `unique`, `default`, `increment`), inline `ref:` foreign keys, notes, and indexes
@@ -74,3 +78,4 @@ A browser-based database schema designer and ER diagram visualizer. Write schema
 3. Start writing your schema or use the sample Blog DB
 
 No server required — it's a fully client-side application.
+
